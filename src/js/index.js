@@ -22,6 +22,7 @@ async function onSubmit(e) {
     addMarkup(markup, cardsEl);
   } catch (error) {
     Notiflix.Notify.failure('Woops... something went wrong');
+    loadMoreBtn.classList.add('is-hidden');
   }
 
   loadMoreBtn.classList.remove('is-hidden');
@@ -36,5 +37,6 @@ async function onLoadMore() {
     Notiflix.Notify.failure(
       "We're sorry, but you've reached the end of search results."
     );
+    loadMoreBtn.classList.add('is-hidden');
   }
 }
