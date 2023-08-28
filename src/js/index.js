@@ -11,21 +11,27 @@ loadMoreBtn.addEventListener('click', onLoadMore);
 async function onSubmit(e) {
   loadMoreBtn.classList.add('is-hidden');
   e.preventDefault();
-  immageGalery.tag = e.currentTarget.elements.searchQuery.value;
+  immageGalery.tag = e.currentTarget.elements.searchQuery.value.trim();
+  if (!e.currentTarget.elements.searchQuery.value.trim()) {
+    return;
+  }
   clearMarkup(cardsEl);
   immageGalery.resetPage();
 
   try {
     const cardsData = await immageGalery.getData();
-
+    console.log(cardsData.total);
     const markup = createCards(cardsData);
     addMarkup(markup, cardsEl);
+    if (cardsData.total === 1) {
+      loadMoreBtn.classList.add('is-hidden');
+      return;
+    }
+    loadMoreBtn.classList.remove('is-hidden');
   } catch (error) {
     Notiflix.Notify.failure('Woops... something went wrong');
     loadMoreBtn.classList.add('is-hidden');
   }
-
-  loadMoreBtn.classList.remove('is-hidden');
 }
 
 async function onLoadMore() {
